@@ -34,9 +34,9 @@ function Graph()
                       :labeldistance => "2",
                       :penwidth => "1.2",
                      )
-    set_gprops!(g, :graph, graph_attrs)
-    set_gprops!(g, :node, node_attrs)
-    set_gprops!(g, :edge, edge_attrs)
+    set_gprop!(g, :graph, graph_attrs)
+    set_gprop!(g, :node, node_attrs)
+    set_gprop!(g, :edge, edge_attrs)
     return g
 end
 
