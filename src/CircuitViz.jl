@@ -5,7 +5,7 @@ using Catlab.Graphs
 using Catlab.Graphics: LeftToRight
 import Catlab.Graphics.GraphvizGraphs: to_graphviz
 using Catlab.Graphs
-import Catlab.Graphs: Graph, add_vertex!, 
+import Catlab.Graphs: PropertyGraph, add_vertex!, 
                       add_edge!, rem_vertex!,
                       rem_edge!
 using Catlab.Graphics: Graphviz
@@ -16,6 +16,29 @@ using LightGraphs: SimpleDiGraph, vertices, edges
 export Graph, add_vertex!, add_edge!, rem_vertex!, rem_edge!
 export to_graphviz, render
 export compile!, show!
+
+function Graph()
+    g = PropertyGraph{Any}()
+    graph_attrs = Dict(
+                       :rankdir => "LR",
+                       :dpi => "288.0",
+                      )
+    node_attrs = Dict(
+                      :fontname => "Courier",
+                      :shape => "triangle",
+                      :orientation => "30",
+                     )
+    edge_attrs = Dict(
+                      :fontname => "Courier",
+                      :labelangle => "25",
+                      :labeldistance => "2",
+                      :penwidth => "1.2",
+                     )
+    set_gprops!(g, :graph, graph_attrs)
+    set_gprops!(g, :node, node_attrs)
+    set_gprops!(g, :edge, edge_attrs)
+    return g
+end
 
 function convert_to_catlab_graph(g::SimpleDiGraph)
     cgraph = Graph()
@@ -42,24 +65,7 @@ function restrict_to_edges(g)
 end
 
 function render(graph)
-    g = to_graphviz(graph;
-                    node_labels = true, 
-                    graph_attrs = Dict(
-                                       :rankdir => "LR",
-                                       :dpi => "288.0",
-                                      ),
-                    node_attrs = Dict(
-                                      :fontname => "Courier",
-                                      :shape => "triangle",
-                                      :orientation => "30",
-                                     ),
-                    edge_attrs = Dict(
-                                      :fontname => "Courier",
-                                      :labelangle => "25",
-                                      :labeldistance => "2",
-                                      :penwidth => "1.2",
-                                     ),
-                   )
+    g = to_graphviz(graph)
     return g
 end
 
