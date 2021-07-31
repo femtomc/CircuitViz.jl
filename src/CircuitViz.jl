@@ -40,6 +40,14 @@ function Graph()
     return g
 end
 
+function add_vertex!(g::PropertyGraph{T}) where T
+    return add_vertex!(g, Dict{Symbol, T}())
+end
+
+function add_edge!(g::PropertyGraph{T}, src::Int, tg::Int) where T
+    return add_edge!(g, src, tg, Dict{Symbol, T}())
+end
+
 function convert_to_catlab_graph(g::SimpleDiGraph)
     cgraph = Graph()
     for v in vertices(g)
