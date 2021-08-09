@@ -11,7 +11,6 @@ import Catlab.Graphs: PropertyGraph, add_vertex!,
 using Catlab.Graphics: Graphviz
 using JSON
 import Base: show
-using LightGraphs: SimpleDiGraph, vertices, edges
 
 export Graph, add_vertex!, add_edge!, rem_vertex!, rem_edge!
 export to_graphviz, render
@@ -22,11 +21,15 @@ function Graph()
     graph_attrs = Dict(
                        :rankdir => "LR",
                        :dpi => "288.0",
+                       :nodesep => "0.15",
+                       :pack => "true",
+                       :ratio => "compress",
                       )
     node_attrs = Dict(
                       :fontname => "Courier",
                       :shape => "triangle",
                       :orientation => "30",
+                      :penwidth => "3.0",
                      )
     edge_attrs = Dict(
                       :fontname => "Courier",
@@ -46,19 +49,6 @@ end
 
 function add_edge!(g::PropertyGraph{T}, src::Int, tg::Int) where T
     return add_edge!(g, src, tg, Dict{Symbol, T}())
-end
-
-function convert_to_catlab_graph(g::SimpleDiGraph)
-    cgraph = Graph()
-    for v in vertices(g)
-        add_vertex!(cgraph)
-    end
-    for e in edges(g)
-        src = e.src
-        tg = e.dst
-        add_edge!(cgraph, Int64(src), Int64(tg))
-    end
-    return cgraph
 end
 
 function restrict_to_edges(g)
